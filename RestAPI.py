@@ -41,7 +41,18 @@ def postSupabase(classList, supabase, class_details):
         .execute()
     )
 
+# Clears all entries in Supabase
+def deleteSupabase(supabase):
+    response = supabase.table("ClassData").delete().neq("class_number", 0).execute()
+
 # Parses the JSON for each class and pushes it to Supabase
-for classes, class_details in data.items():
-    classList = ClassList.ClassList(classes, class_details)
-    postSupabase(classList, supabase, class_details)
+def addClasses(data):
+    for classes, class_details in data.items():
+        classList = ClassList.ClassList(classes, class_details)
+        postSupabase(classList, supabase, class_details)
+
+action = input()
+if (action == "1"):
+    addClasses(data)
+else:
+    deleteSupabase(supabase)
